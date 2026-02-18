@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuvola Beauty | Akıllı Teklif Al</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="img/logo.jpg" alt="Nuvola Beauty Logo" class="nav-logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Ana Sayfa</a></li>
+            <li><a href="task2.html"  >Paketler</a></li>
+            <li><a href="team.html" >Ekibimiz</a></li>
+            <li><a href="teklif.html" class="active" >Teklif Al</a></li>
+            <li style="list-style: none; margin-left: 20px;">
+    <button id="theme-toggle" class="theme-btn" style="padding: 5px 15px; font-size: 12px;">☾⭑</button>
+</li>
+        </ul>
+    </nav>
+
+    <div class="team-wrapper">
+        <div class="calculator-header">
+            <h1>Akıllı Fiyat Hesaplayıcı</h1>
+            <p>İstediğiniz işlemleri seçin ve tahmini tutarı öğrenin.</p>
+        </div>
+
+        <div class="card calculator-card">
+            <div class="input-group">
+                <label>Ana İşlem Seçiniz:</label>
+                <select id="serviceType">
+                    <option value="0">İşlem Seçin...</option>
+                    <option value="1200">Davet Makyajı (1200 TL)</option>
+                    <option value="450">Manikür & Pedikür (450 TL)</option>
+                    <option value="600">Kalıcı Oje (600 TL)</option>
+                    <option value="850">Protez Tırnak (850 TL)</option>
+                    <option value="1000">Cilt Bakımı (1000 TL)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Kişi veya Seans Sayısı:</label>
+                <input type="number" id="sessionCount" value="1" min="1">
+            </div>
+
+            <div class="input-group">
+                <label>Ekstra Hizmetler:</label>
+                <div class="checkbox-list">
+                    <label><input type="checkbox" class="extra-service" value="150"> Nail Art Tasarımı (+150 TL)</label>
+                    <label><input type="checkbox" class="extra-service" value="250"> Kirpik Takma (+250 TL)</label>
+                    <label><input type="checkbox" class="extra-service" value="200"> Özel Nemlendirici Maske (+200 TL)</label>
+                </div>
+            </div>
+
+            <button onclick="calculateQuote()" class="nuvola-btn full-width">Fiyatı Hesapla</button>
+
+            <div id="resultArea" class="result-box">
+                <h3>Tahmini Toplam Tutar</h3>
+                <p id="totalPriceDisplay">0 TL</p>
+                <small>*Bu fiyat bilgilendirme amaçlıdır, kesin fiyat randevu sonrası belirlenir.</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+         //İş Mantığı: Seçilen hizmet ve ekstraları kişi sayısıyla çarparak dinamik sonuç üretir
+        
+        function calculateQuote() {
+            // Elementleri ve değerleri değişkenlere atama
+            const servicePrice = parseFloat(document.getElementById('serviceType').value);
+            const count = parseInt(document.getElementById('sessionCount').value);
+            const resultArea = document.getElementById('resultArea');
+            const priceDisplay = document.getElementById('totalPriceDisplay');
+            
+            let extraTotal = 0;
+            const extras = document.querySelectorAll('.extra-service:checked');
+            
+            // Seçilen her ekstranın birim fiyatını topluyoruz 
+            extras.forEach(item => {
+                extraTotal += parseFloat(item.value);
+            });
+
+            // GÖREV: Matematiksel Algoritma Entegrasyonu 
+            if (servicePrice > 0) {
+                const total = (servicePrice + extraTotal) * count;
+                
+                // GÖREV: DOM Manipülasyonu (Sayfa yenilenmeden veriyi güncelleme)
+                priceDisplay.innerText = total.toLocaleString('tr-TR') + " TL";
+                resultArea.classList.add('active'); // CSS animasyonunu tetikler
+            } else {
+                alert("Lütfen bir ana işlem seçiniz.");
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

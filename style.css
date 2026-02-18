@@ -1,0 +1,751 @@
+:root {
+    --bg-color: #fce4ec;
+    --text-color: #5d4037;
+    --card-bg: #fff9fa;
+    --nav-bg: #ffffff;
+    --white: #ffffff;
+    --hero-img: url('img/hero.jpg');
+    --theme-btn-color: #ff3b9a6d;
+    --primary-pink: #d81b60;
+    
+}
+
+[data-theme="dark"] {
+    --bg-color: #2d1b22; 
+    --text-color: #fce4ec;
+    --card-bg: #3d262e;
+    --nav-bg: #2d1b22;
+    --white: #2d1b22;
+    --hero-img: url('img/hero2.jpg');
+     --theme-btn-color: #5d0028;
+}
+
+/* --- 1. GENEL AYARLAR--- */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color); 
+    line-height: 1.6;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* --- 2. NAVBAR--- */
+.navbar {
+    display: flex; 
+    justify-content: space-between; /* Logo ve menü linklerini iki uca yaslar */
+    align-items: center; /* Elemanları dikeyde ortalar */
+    padding: 15px 5%; 
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid #fce4ec;
+    position: sticky; /* Sayfa aşağı kaysa bile tepede sabit kalmasını sağlar */
+    top: 0;
+    z-index: 1000; /* Diğer içeriklerin üstünde kalması için */
+    height: 80px; 
+}
+
+.nav-logo {
+    height: 50px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex; 
+    list-style: none; /* Noktalı liste işaretlerini kaldırır */
+    gap: 25px; /* Linkler arası boşluk */
+}
+
+.nav-links a {
+    text-decoration: none; /* Link alt çizgisini kaldırır */
+    color: #d81b60;
+    font-size: 16px; 
+    font-weight: 600;
+    transition: 0.3s; /* Renk değişim animasyon hızı */
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #f06292;
+}
+
+/* --- 3.ANA GİRİŞ ALANI --- */
+.hero, .hero-banner {
+    display: flex;
+    flex-direction: column; /* Yazıları alt alta dizer */
+    align-items: center;
+    justify-content: center; 
+    min-height: 400px; 
+    width: 100%;
+    text-align: center;
+    padding: 40px 5%;
+    color: var(--text-color);
+    background-image: var(--hero-img);
+    background-size: cover; /* Resmi alanı tamamen kaplayacak şekilde ölçekler */
+    background-position: center; 
+    background-repeat: no-repeat;
+   /* transition: background-image 0.5s ease-in-out; */
+}
+
+.hero-content h1, .hero-banner h1 {
+    font-size: 3rem;
+    color: var(--text-color); 
+    margin-bottom: 15px;
+}
+
+.hero-content p, .hero-banner p {
+    font-size: 1.2rem;
+    color: #5d4037;
+}
+
+/* --- 4. EKİP SAYFASI DÜZENİ  --- */
+.team-wrapper {
+    max-width: 1200px;
+    margin: 60px auto; /* Üstten 60px boşluk bırakarak Hero'dan ayırır */
+    padding: 0 5%;
+}
+
+.leader-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px; /* CEO kartı ile aşağıdaki ekip arasındaki mesafe */
+}
+
+.team-grid {
+    display: grid; /* Izgara yerleşimi başlatır */
+    grid-template-columns: repeat(3, 1fr); /* Masaüstünde 3 eşit sütun oluşturur */
+    gap: 30px;
+}
+
+/* --- 5. KİŞİ KARTLARI & HOVER MEKANİZMASI --- */
+.member-card {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 3/4; /* Kartın dikey dikdörtgen formunu korur */
+    border-radius: 20px;
+    overflow: hidden; /* İçerideki panelin kart dışına taşmasını engeller */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    transition: transform 0.3s ease; /* Yükselme animasyonu hızı */
+}
+
+.member-card:hover {
+    transform: translateY(-5px); /* Üzerine gelince kartı 5px yukarı kaldırır */
+}
+
+.member-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- EKİP PANEL ANİMASYONU --- */
+.info-overlay {
+    position: absolute;
+    bottom: -100%; /* Başlangıçta paneli kartın tamamen altında (gizli) tutar */
+    left: 0;
+    width: 100%;
+    height: 45%;
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    text-align: center;
+    /* transition: Panelin çıkış hızı ve yaylanma efekti */
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+/* JS ile tetiklenen aktifleşme konumu */
+.member-card.active .info-overlay {
+    bottom: 0; /* Paneli kartın içine kaydırarak görünür yapar */
+}
+
+.info-overlay h3 { color: #ad1457; font-size: 1.1rem; margin-bottom: 5px; }
+.info-overlay p { color: var(--text-color); }
+
+/* --- 6. ÜRÜN KARTLARI  --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 60px 5%; 
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #fce4ec;
+}
+
+.card img {
+    width: 100%;
+    height: 250px; 
+    object-fit: cover; 
+    border-radius: 15px;
+}
+
+/* --- 7. FİYATLANDIRMA ALANI --- */
+.pricing-wrapper {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 25px;
+    padding: 40px 5%;
+}
+
+.card-body li {
+    padding: 10px 0;
+    border-bottom: 1px solid #fff5f8;
+    font-size: 0.95rem;
+}
+
+.disabled {
+    color: #bbb;
+    text-decoration: line-through; /* Devre dışı paket özelliklerinin üzerini çizer */
+}
+
+/* --- 8. BUTONLAR & MODAL SİSTEMİ --- */
+.nuvola-btn, .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #d81b60;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nuvola-btn:hover, .btn:hover {
+    background: #f06292;
+
+}
+
+
+
+.theme-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--theme-btn-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.theme-btn:hover, .btn:hover {
+    background: #d81b60;
+}
+
+
+
+
+
+
+.cert-btn-small {
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    margin-top: 10px;
+    background: #ad1457;
+}
+
+/* ---8 SERTİFİKA MODALI --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); /* Arka planı koyulaştırır */
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Arka plandaki sayfayı bulanıklaştırır */
+}
+
+.modal-content img {
+    max-width: 85%;
+    max-height: 80vh;
+    border-radius: 12px;
+}
+
+/* --- 9. FOOTER  --- */
+footer, .team-footer {
+    text-align: center;
+    padding: 40px;
+}
+
+.price-btn {
+    color: #f06292;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 2px solid #f06292;
+}
+
+/* --- 10. RESPONSIVE (MOBİL UYUMLULUK SORGULARI) --- */
+@media (min-width: 768px) {
+    /* Tablet ve üstü ekranlarda grid 2 sütun olur */
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    /* Masaüstü ekranlarda grid 3 sütun olur */
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 600px) {
+    /* Küçük ekranlarda (telefon) başlık küçülür ve grid tek sütuna düşer */
+    .hero-banner h1, .hero h1 { font-size: 2rem; }
+    .team-grid, .products-grid { grid-template-columns: 1fr; }
+}
+
+
+
+
+
+
+
+/* --- 11. TEKLİF HESAPLAYICI --- */
+
+.calculator-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
+
+.calculator-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.input-group select, 
+.input-group input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #fce4ec;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--primary-pink);
+}
+
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--card-bg) !important; 
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.checkbox-list label {
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.full-width {
+    width: 100%;
+    border: none;
+}
+
+/* Sonuç Ekranı Animasyonu */
+.result-box {
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    background-color: var(--card-bg) !important;
+    display: none; /* Başlangıçta gizli  */
+    animation: fadeIn 0.5s ease;
+}
+
+.result-box.active {
+    display: block;
+}
+
+#totalPriceDisplay {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ad1457;
+    margin: 10px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---12. HAVA DURUMU--- */
+
+.weather-tip-container {
+    padding: 20px 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.weather-card {
+    max-width: 500px;
+    border: 1px solid var(--primary-pink); 
+    padding: 15px;
+    background-color: var(--card-bg); /* Temaya duyarlı arka plan */
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.weather-card h4 {
+    color: #ad1457;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.weather-card p {
+    font-size: 0.9rem;
+    color: var(--text-color); /* Karanlık modla uyumlu yazı */
+    font-style: italic;
+}
+
+.hidden { display: none; }
+
+/*---13. KAMPANYA---*/
+
+/* Popup Arka Planı */
+.popup-overlay {
+    display: none; /* Sayfa açılana kadar gizli */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mesaj Kartı */
+.popup-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    border: 2px solid var(--primary-pink);
+    animation: fadeIn 0.5s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: var(--primary-pink);
+}
+
+.campaign-list {
+    list-style: none;
+    padding: 15px 0;
+    text-align: left;
+}
+
+.campaign-list li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.date-info {
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.step-hidden { display: none; }
+.step-active { display: block; animation: fadeIn 0.5s ease; }
+
+#game-container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    background-color: var(--card-bg); /* Mürdüm uyumu */
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-pink);
+}
+
+.gift-showcase {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px dashed var(--primary-pink);
+}
+
+.gift-showcase h3 {
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+    color: var(--primary-pink);
+}
+
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.gift-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.gift-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-pink);
+}
+
+.gift-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.gift-card h4 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.gift-card p {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+
+
+/*KAMPANYA */
+
+
+/* Görev Adımları Stili */
+.mission-steps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+
+/* PART 1 Ana Oyun Kutusu Düzenlemesi */
+.main-box {
+    min-height: 450px; 
+    display: flex;
+    flex-direction: column; /* İçerikleri alt alta dizer */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Logolar dışarı taşmasın */
+    position: relative; /* İçindeki logolar buna göre konumlanacak */
+}
+
+/* PART 2 Adımlar - Aktiflik Belirtisi */
+.mission-steps .step {
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: var(--card-bg);
+    border: 1px solid var(--primary-pink);
+    opacity: 0.5; /* Pasif adımlar sönük */
+    transition: 0.3s;
+}
+
+.mission-steps .step.active {
+    opacity: 1; /* Aktif adım parlak */
+    background: var(--primary-pink);
+    color: white;
+    box-shadow: 0 0 15px var(--primary-pink);
+}
+
+/* PART 3 8 Kartlı Hediye Havuzu */
+.gift-pool-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(2, auto); /* İki satır garanti altına alınır */
+    gap: 20px;
+    margin-top: 50px;
+    width: 100%;
+}
+
+#logo-catch-area {
+    width: 100%;
+    height: 300px; /* Oyun alanı kutu içinde sınırlı kalsın */
+    position: relative;
+    overflow: hidden;
+}
+
+.flying-logo {
+    position: absolute;
+    width: 50px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.flying-logo {
+    position: absolute;
+    width: 60px !important; 
+    height: 60px !important;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--primary-pink); /* Pembe parlama efekti */
+    object-fit: cover; 
+    z-index: 100;
+    transition: transform 0.2s ease;
+    border: 2px solid white; 
+    background-color: white; /* Logonun kenarlarındaki boşlukları kapatır */
+}
+
+.flying-logo:hover {
+    transform: scale(1.2) rotate(10deg); /* Üzerine gelince hem büyür hem hafif döner */
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    perspective: 1000px; /* 3D efekti için */
+}
+
+.memory-card {
+    height: 100px;
+    cursor: pointer;
+    position: relative;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    border-radius: 10px;
+}
+
+.memory-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid var(--primary-pink);
+}
+
+.card-front {
+    background: var(--primary-pink);
+    color: white;
+    font-size: 2rem;
+}
+
+.card-back {
+    background: white;
+    transform: rotateY(180deg);
+}
+
+.card-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  
+    background-color: #fff;
+}
+
+#perfume-container {
+    cursor: pointer;
+    margin-top: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+#perfume-bottle {
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 0 0px var(--primary-pink));
+}
+
+#progress-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-pink);
+    margin-top: 15px;
+}
+
+#reward-screen {
+    animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}

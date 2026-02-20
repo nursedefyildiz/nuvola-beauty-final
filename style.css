@@ -23,6 +23,23 @@
 /* --- 1. GENEL AYARLAR--- */
 
 
+/* Sayfa Açılış Animasyonu */
+@keyframes fadeInSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Hafif aşağıdan başlar */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Normal konumuna gelir */
+    }
+}
+
+.page-animate {
+    animation: fadeInSlide 0.8s ease-out forwards; /* 0.8 saniyede süzülerek açılır */
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -43,40 +60,132 @@ body {
 
 /* --- 2. NAVBAR--- */
 .navbar {
-    display: flex; 
-    justify-content: space-between; /* Logo ve menü linklerini iki uca yaslar */
-    align-items: center; /* Elemanları dikeyde ortalar */
-    padding: 15px 5%; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
     background-color: var(--nav-bg);
-    border-bottom: 1px solid #fce4ec;
-    position: sticky; /* Sayfa aşağı kaysa bile tepede sabit kalmasını sağlar */
+    border-bottom: 2px solid var(--primary-pink);
+    position: sticky;
     top: 0;
-    z-index: 1000; /* Diğer içeriklerin üstünde kalması için */
-    height: 80px; 
+    z-index: 1000;
+    height: 70px;
 }
 
-.nav-logo {
-    height: 50px; 
-    width: auto;
-    object-fit: contain;
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
+.menu-btn {
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: var(--primary-pink);
+    cursor: pointer;
+}
+
+/* --- YANDAN AÇILAN PANEL --- */
 .nav-links {
-    display: flex; 
-    list-style: none; /* Noktalı liste işaretlerini kaldırır */
-    gap: 25px; /* Linkler arası boşluk */
+  position: fixed;
+    top: 0; 
+    left: -100%; 
+    width: 250px; 
+    height: 100vh; 
+    background-color: var(--card-bg);
+    flex-direction: column;
+    padding: 100px 20px 40px 20px;
+    gap: 10px; /* Linkler arası mesafe */
+    transition: 0.4s ease-in-out;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 2001; 
+    display: flex;
+    border-right: 2px solid var(--primary-pink);
+}
+/* Menü linklerinin genel stili */
+.nav-links li {
+    list-style: none; /* Noktaları kaldırır */
+    width: 100%; /* Mobilde tıklama alanını genişletir */
 }
 
 .nav-links a {
-    text-decoration: none; /* Link alt çizgisini kaldırır */
-    color: #d81b60;
-    font-size: 16px; 
-    font-weight: 600;
-    transition: 0.3s; /* Renk değişim animasyon hızı */
+    text-decoration: none; /* Alt çizgiyi kaldırır */
+    color: var(--text-color);
+    font-weight: 400;
+    font-size: 1.1rem;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: 0.3s ease; /* Hover efekti için yumuşak geçiş */
 }
 
-.nav-links a:hover, .nav-links a.active {
-    color: #f06292;
+/* Üzerine gelince veya aktif sayfadayken */
+.nav-links a:hover, 
+.nav-links a.active {
+    background-color: var(--primary-pink);
+    color: white !important;
+    padding-left: 20px; /* Hafif sağa kayma efekti */
+}
+
+.nav-links.show {
+   left: 0 !important; 
+}
+
+.close-menu-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: var(--primary-pink);
+    cursor: pointer;
+}
+
+/* Masaüstü İçin Düzen*/
+@media (min-width: 1024px) {
+    .menu-btn, .close-menu-btn { display: none; }
+    .nav-links {
+        position: static;
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        padding: 0;
+        box-shadow: none;
+        left: 0;
+        border: none;
+    }
+}
+.close-menu-btn {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    font-size: 35px;
+    color: var(--primary-pink);
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.3s;
+}
+
+.close-menu-btn:hover {
+    transform: rotate(90deg);
+}
+
+.nav-logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    transition: all 0.4s ease; /* Hem parlama hem büyüme için yumuşak geçiş */
+}
+
+/* Üstüne gelince (Hover) parlama efekti */
+.nav-logo:hover {
+    transform: scale(1.08); /* Hafifçe büyür */
+    filter: drop-shadow(0 0 12px var(--primary-pink)); 
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .nav-logo { height: 45px; }
 }
 
 /* --- 3.ANA GİRİŞ ALANI --- */
@@ -323,6 +432,25 @@ footer, .team-footer {
     .team-grid, .products-grid { grid-template-columns: 1fr; }
 }
 
+/* Masaüstünde 4 sütun, tablette 2 sütun, mobilde 1 sütun düzeni */
+@media (max-width: 1024px) {
+    .gift-pool-grid {
+        grid-template-columns: repeat(2, 1fr); /* Tablette 2x4 düzeni */
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .gift-pool-grid {
+        grid-template-columns: 1fr; /* Mobilde kartlar alt alta (1x8) */
+        gap: 10px;
+        padding: 0 10px;
+    }
+    
+    .gift-card {
+        padding: 15px; /* Mobilde alanı daha verimli kullanmak için */
+    }
+}
 
 
 
@@ -463,6 +591,7 @@ footer, .team-footer {
     z-index: 2000;
     justify-content: center;
     align-items: center;
+    
 }
 
 /* Mesaj Kartı */
@@ -613,13 +742,35 @@ footer, .team-footer {
 }
 
 /* PART 3 8 Kartlı Hediye Havuzu */
+/* Masaüstü varsayılan (4 sütun) */
 .gift-pool-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    grid-template-rows: repeat(2, auto); /* İki satır garanti altına alınır */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-top: 50px;
     width: 100%;
+}
+
+/* Tablet Görünümü */
+@media screen and (max-width: 1024px) {
+    .gift-pool-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* Çakışmayı önlemek için !important ekledik */
+        gap: 15px;
+    }
+}
+
+/* Mobil Görünümü */
+@media screen and (max-width: 600px) {
+    .gift-pool-grid {
+        grid-template-columns: 1fr !important; /* Mobilde tek sütun */
+        gap: 10px;
+    }
+    
+    .gift-card {
+        padding: 15px;
+        margin: 0 auto;
+        width: 90%; /* Mobilde kenarlardan hafif boşluk */
+    }
 }
 
 #logo-catch-area {
@@ -748,4 +899,14 @@ footer, .team-footer {
     50% { transform: scale(1.05); opacity: 1; }
     70% { transform: scale(0.9); }
     100% { transform: scale(1); }
+}
+
+.gift-header h2::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--primary-pink), transparent);
+    margin: 10px auto;
+    border-radius: 50%;
 }

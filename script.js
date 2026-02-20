@@ -59,9 +59,9 @@ function displayWeatherAdvice(data) {
     
     //  yorumlar
     const recommendations = {
-        'Clear': "Güneş parlıyor! Cilt bakımı için harika bir gün, tam french tırnak yaptırma havası. ✨",
+        'Clear': "Güneş parlıyor! Cilt bakımı için harika bir gün ve  tam french tırnak yaptırma havası. ✨",
         'Clouds': "Hava biraz kapalı ama ruhun parlasın! Tam alışveriş havası ve nude tonlar günü kurtarır. ☁️",
-        'Rain': "Yağmura inat ışıltını koru! Bugün soft bir cilt bakımı ve bordo tırnaklar seni modunda tutar. ☔",
+        'Rain': "Yağmura inat ışıltını koru! Bugün soft bir cilt bakımı seni modunda tutar. ☔",
         'Drizzle': "Hafif yağmur, bolca huzur. Bugün tam bir nemlendirici maske yapma havası! 🧴"
     };
 
@@ -79,7 +79,7 @@ window.onload = function() {
     // Sayfa açıldıktan 1 saniye sonra göster
     setTimeout(() => {
         popup.style.display = 'flex';
-    }, 1000);
+    }, 900);
 
     // Çarpıya basınca kapat
     closeBtn.onclick = function() {
@@ -113,7 +113,7 @@ function handleMainAction() {
     const content = document.getElementById('step-content');
     content.innerHTML = `
         <div id="step-1" class="step-active">
-            <h2>✨ Logo Avı</h2>
+            <h2>☁︎Logo Avı</h2>
             <p>Ekranda uçuşan 3 logoyu yakala! (<span id="count">0</span>/3)</p>
             <div id="logo-zone" style="position:relative; width:100%; height:300px; overflow:hidden; border:1px dashed var(--primary-pink); border-radius:15px; margin-top:10px;"></div>
         </div>
@@ -124,7 +124,7 @@ function handleMainAction() {
     
     // 3. Logoları oluşturmaya başla
     const zone = document.getElementById('logo-zone');
-    caughtLogos = 0; // Sayacı her zaman sıfırla
+    caughtLogos = 0; // Sayacı sıfırla
     
     for (let i = 0; i < 3; i++) {
         createFlyingLogo(zone);
@@ -296,7 +296,7 @@ function fillPerfume() {
     const text = document.getElementById('progress-text');
     
     if (fillAmount < 100) {
-        fillAmount += 5; // Her tıklamada %5 artar
+        fillAmount += 10; // Her tıklamada %10 artar
         text.innerText = `%${fillAmount}`;
         
         // Şişenin parlamasını ve büyümesini sağlar
@@ -340,6 +340,7 @@ function finishSeruven() {
     `;
     
     updateSteps(3); // Adım çubuğunu tamamla
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d81b60', '#2d1b22', '#fce4ec'] });
 }
 
 function showSavedReward() {
@@ -385,3 +386,43 @@ function resetAdventure() {
         location.reload(); // Sayfayı yenileyerek oyunu başlatır
     }
 }
+
+
+
+
+const menuToggle = document.getElementById('menu-toggle');
+const closeMenu = document.getElementById('close-menu');
+const navLinks = document.getElementById('nav-links');
+
+if (menuToggle && navLinks) {
+    menuToggle.onclick = () => {
+        navLinks.classList.toggle('show');
+        // Menü açıkken sayfanın kaymasını engelle
+        document.body.style.overflow = navLinks.classList.contains('show') ? 'hidden' : 'auto';
+    };
+}
+
+if (closeMenu) {
+    closeMenu.onclick = () => {
+        navLinks.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    };
+}
+
+// Sayfadan çıkarken yumuşak geçiş efekti
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        
+        if (this.hostname === window.location.hostname && !this.hash) {
+            e.preventDefault();
+            const target = this.href;
+            
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                window.location.href = target;
+            }, 500);
+        }
+    });
+});

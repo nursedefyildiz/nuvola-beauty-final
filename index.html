@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
-
+    
 
     <div id="campaign-popup" class="popup-overlay">
     <div class="popup-content card">
@@ -32,19 +32,23 @@
     
 
     <nav class="navbar">
-        <div class="logo">
-            <img src="img/logo.jpg" alt="Nuvola Beauty Logo" class="nav-logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active">Ana Sayfa</a></li>
-            <li><a href="task2.html">Paketler</a></li>
-            <li><a href="team.html">Ekibimiz</a></li>
-            <li><a href="teklif.html">Teklif Al</a></li>
-           <li style="list-style: none; margin-left: 20px;">
-    <button id="theme-toggle" class="theme-btn" style="padding: 5px 15px; font-size: 12px;">☾⭑</button>
-</li>
-        </ul>
-    </nav>
+    <div class="logo">
+        <img src="img/logo.jpg" alt="Logo" class="nav-logo">
+    </div>
+    
+    <div class="nav-controls">
+        <button id="theme-toggle" class="theme-btn">☾⭑</button>
+        <button id="menu-toggle" class="menu-btn">☰</button>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+        <span id="close-menu" class="close-menu-btn">&times;</span> <li><a href="index.html" class="active">Ana Sayfa</a></li>
+        <li><a href="task2.html">Paketler</a></li>
+        <li><a href="team.html">Ekibimiz</a></li>
+        <li><a href="teklif.html">Teklif Al</a></li>
+        <li><a href="kampanya.html">Kampanyalar</a></li>
+    </ul>
+</nav>
 
    <header class="hero">
     <div class="hero-content">
